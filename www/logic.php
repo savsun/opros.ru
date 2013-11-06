@@ -43,18 +43,23 @@
 	}
 	
 	function getProximityMatrix($listRankMatrix)
-	{
+	{	
+		//Размер матрицы рангов
+		$n=0;
 		$proximityMatrix = array();
 		foreach($listRankMatrix as $key => $value)
 		{
 			$proximityMatrix[$key] = array();
 		}
+		//Кого сравниваем
 		foreach($listRankMatrix as $keyFirst => $rankMatrixFirst)
 		{
+			//С кем сравниваем
 			foreach ($listRankMatrix as $keySecond => $rankMatrixSecond)
 			{
 				if ($keyFirst <> $keySecond)
 				{
+					// Если мы не знаем размер матрицы рангов,то мы его узнаем
 					if ($n == 0)
 					{
 						$n = count($rankMatrixFirst);
@@ -76,6 +81,7 @@
 				}
 				else
 				{
+					//Элементы главной диагонали
 					$proximityMatrix[$keyFirst][$keySecond] = 0;
 				}
 			}

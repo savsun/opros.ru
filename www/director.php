@@ -46,7 +46,7 @@
 						
 							echo "<h4 align='right'>Таблица оценок экспертов</h4>";
 							echo "<table border='2' cellspacing = '1'><tr><td align='center' rowspan = '2'>Эксперт</td>";
-							echo "<td align = 'center' colspan = $mesureCount'>Оценки по следующим критериям</td></tr><tr>";
+							echo "<td align = 'center' colspan = '$mesureCount'>Оценки по следующим критериям</td></tr><tr>";
 							while ($row = mysql_fetch_row($query))
 							{
 								echo "<td align='center'>$row[0]</td>";
@@ -123,64 +123,5 @@
 			</td>
 		</tr>
 	</table>
-	<?php
-/*$query=mysql_query("SELECT mark FROM experttointerview WHERE numberOpros=1 and numberExpert=3");
-		$mark3=array();
-		while ($row = mysql_fetch_row($query))
-			{
-				array_push($mark3,$row[0]);
-			}
-		print_r($mark3);
-		$query=mysql_query("SELECT mark FROM experttointerview WHERE numberOpros=1 and numberExpert=4");
-		$mark4=array();
-		while ($row = mysql_fetch_row($query))
-			{
-				array_push($mark4,$row[0]);
-			}
-		print_r($mark4);
-		
-		
-		$keyCount=count($mark3);
-		echo $keyCount;
-		$rankMatr=array();
-		for ($i=0; $i<(count($mark3)); $i++)
-			{
-				$rankRow=array();
-				for ($j=0; $j<(count($mark3)); $j++)
-				{
-					array_push($rankRow,0);
-				}
-				array_push($rankMatr,$rankRow);
-			} 
-		
-		for ($i=0; $i<(count($mark3)); $i++)
-			{
-				for ($j=$i+1; $j<(count($mark3)); $j++)
-				{
-					if ($mark3[$i]==$mark3[$j])
-					{
-						$rankMatr[$i][$j]=0;
-						$rankMatr[$j][$i]=0;
-					}
-					else if ($mark3[$i]>$mark3[$j])
-						{
-							$rankMatr[$i][$j]=1;
-							$rankMatr[$j][$i]=-1;
-						}
-						else
-						{
-							$rankMatr[$i][$j]=-1;
-							$rankMatr[$j][$i]=1;
-						}
-				}
-			}
-		echo "<br>";	
-		for ($i=0; $i<4; $i++)
-		{
-			print_r($rankMatr[$i]);
-			echo "<br>";
-		}*/
-	?>
-	
 </body>
 </html>
