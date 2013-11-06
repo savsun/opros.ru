@@ -18,15 +18,22 @@
 				<a href=admin.php>В меню администратора</a><br>
 			</td>
 			<td>
-				<?php
-					$db=mysql_connect("localhost","root");
-					mysql_select_db ("interview");
-					$query=mysql_query("SELECT * FROM users WHERE userId>2");
-					while ($row = mysql_fetch_array($query))
-					{
-						echo $row[0];
-					}
-				?>
+				<table border ="2">
+					<tr>
+						<td>ФИО эксперта</td>
+						<td>Специализация</td>
+						<td>Адрес электронной почты</td>
+					</tr>
+					<?php
+						$db=mysql_connect("localhost","root");
+						mysql_select_db ("interview");
+						$query=mysql_query("SELECT * FROM users WHERE userId>2");
+						while ($row = mysql_fetch_array($query))
+						{
+							echo "<tr><td>$row[fio]</td><td>$row[specialization]</td><td>$row[mail]</td></tr>";
+						}
+					?>
+					</table>
 			</td>
 		</tr>
 	</table>
