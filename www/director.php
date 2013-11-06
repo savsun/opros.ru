@@ -27,6 +27,7 @@
 			</td>
 			<td>
 				<?php
+					//Получение матрицы оценок экспертов
 					$name=array_values($_POST);
 					echo "<center><h2>".$name[0]."</h2></center>";
 					
@@ -41,25 +42,85 @@
 					{
 						$count=$row[0];
 					}
-				
 					
+					//Вывод заголовка таблицы оценок
+					$query=mysql_query("SELECT DISTINCT measure FROM experttointerview WHERE numberOpros=".$id);
+					$mesureCount = mysql_num_rows($query);
+					if ($row = mysql_fetch_row($query))
+					{
+						echo "<table border='2'><tr><td align='center' rowspan = '2'>Эксперт</td>";
+						echo "<td align = 'center' colspan = $mesureCount'>Оценки</td></tr><tr>";
+						echo "<td align='center'>$row[0]</td>";
+						while ($row = mysql_fetch_row($query))
+						{
+							echo "<td align='center'>$row[0]</td>";
+						}
+						echo "</tr>";
+					}
+					
+					//Элемент массива marks - оценки конкретного эксперта в конкретном опросе.
 					$marks=array();
+					
 					for ($i=3; $i<($count)+1; $i++)
 					{
 						$query=mysql_query("SELECT mark FROM experttointerview WHERE numberOpros=".$id." and numberExpert=".$i."");
 						if (mysql_num_rows ($query) != 0)
 						{
+							$expertQuery = mysql_query("SELECT fio FROM users WHERE userId = ".$i);
+							$expertName = mysql_fetch_row($expertQuery);
+							echo "<tr><td align='left' >".$expertName[0]."</td>";
 							$mark=array();
 							while ($row = mysql_fetch_row($query))
 							{
+								echo "<td align='center'>$row[0]</td>";
 								array_push($mark,$row[0]);
 							}
-							/*print_r($mark);*/
-							array_push($marks,$mark);
+							echo "</tr>";
+							$marks[$i] = $mark;
 						}
 					}
-					/*print_r($marks);*/
 					
+					//Конец таблицы оценок
+					echo "</table>";
+					
+					$listRankMatr = array();
+					foreach($marks as $key => $mark)
+					{
+						//Матрица рангов для оценок конкретного эксперта
+						$rankMatr=array();
+						for ($i=0; $i<(count($mark)); $i++)
+							{
+								$rankRow=array();
+								for ($j=0; $j<(count($mark)); $j++)
+								{
+									array_push($rankRow,0);
+								}
+								array_push($rankMatr,$rankRow);
+							} 
+						
+						for ($i=0; $i<(count($mark)); $i++)
+						{
+							for ($j=$i+1; $j<(count($mark)); $j++)
+							{
+								if ($mark[$i]==$mark[$j])
+								{
+									$rankMatr[$i][$j]=0;
+									$rankMatr[$j][$i]=0;
+								}
+								else if ($mark[$i]>$mark[$j])
+									{
+										$rankMatr[$i][$j]=1;
+										$rankMatr[$j][$i]=-1;
+									}
+									else
+									{
+										$rankMatr[$i][$j]=-1;
+										$rankMatr[$j][$i]=1;
+									}
+							}
+						}
+						$listRankMatr[$key] = $rankMatr;
+					}
 				?>
 			</td>
 		</tr>

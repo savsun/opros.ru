@@ -6,7 +6,7 @@
 	<title>UserPage</title>
  </head>
  
-<body>
+<body bgcolor="ffc13d">
 	<div>
 		<?php
 			include ("blocks/header.php");

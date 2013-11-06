@@ -55,7 +55,6 @@
 					}
 				echo "<input type='submit' name='estimate' value='Оценить'/><br>";
 				echo "</form>";
-				var_dump($_POST);
 				
 				if (isset ($_POST['estimate']))
 					{
@@ -64,7 +63,7 @@
 								$query=mysql_query("UPDATE experttointerview SET mark='".$value."' WHERE measure='".str_replace('_',' ',$key)."'")or die(mysql_error());
 							} 
 					
-							
+						exit("<meta http-equiv='refresh' content='0; url= $_SERVER[PHP_SELF]'>");	
 					}
 			?>
 			</td>
