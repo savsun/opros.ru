@@ -28,7 +28,6 @@
 			<td>
 				<?php
 					//Получение матрицы оценок экспертов
-					var_dump($_SESSION);
 					$name=array_values($_POST);
 					
 					$result=mysql_query("SELECT id FROM listofinterview WHERE nameInterview='".$name[0]."'");

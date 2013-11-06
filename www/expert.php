@@ -12,6 +12,7 @@
 			<?php
 				$db=mysql_connect("localhost","root");
 				mysql_select_db ("interview");
+				print_r ($_SESSION['login']);
 				$query=mysql_query("SELECT fio FROM users WHERE login='".$_SESSION['login']."'");
 				while ($row = mysql_fetch_row($query))
 				{

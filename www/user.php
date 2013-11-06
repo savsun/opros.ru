@@ -52,7 +52,6 @@
 			}
 			$_SESSION['login'] = $login;
 			$_SESSION['password'] = $password;
-			var_dump(session_id());
 	?>
 </body>
 </html>
