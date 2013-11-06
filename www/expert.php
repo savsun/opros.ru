@@ -14,9 +14,9 @@
 				mysql_select_db ("interview");
 				$query=mysql_query("SELECT fio FROM users WHERE login='".$_SESSION['login']."'");
 				while ($row = mysql_fetch_row($query))
-					{
-						echo $row[0];
-					}
+				{
+					echo $row[0];
+				}
 			?>
 		</h3>
 	</center>
