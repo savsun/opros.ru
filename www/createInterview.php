@@ -30,17 +30,16 @@
 						$db=mysql_connect("localhost","root");
 						mysql_select_db ("interview");
 						$query=mysql_query("SELECT fio as fio FROM users WHERE userId>2");
-						$expert_data=mysql_fetch_array($query);
-						for ($x=0; $x<count($expert_data); $x++) 
+						while ($row = mysql_fetch_row($query)) 
 						{
-							echo "<input type='checkbox' name='expert".$x."' value='".$expert_data[$x]."'>";
-							echo $expert_data[$x];
+							echo "<input type='checkbox' name='expert".$x."' value='".$row[0]."'>";
+							echo $row[0];
 							echo "<br>";	
 						}
 					?>
 					<p>Выберите критерии, по которым эксперты оценят данную предметную область по дестибальной шкале</p>
 					<p>Введите число критериев</p>
-					<form method="post" action="createInterview.php">
+					<form  method="post" action="createInterview.php">
 						<input type="text" name="countmeasure"  required/><br>
 						<input type="submit" name="measure" value="Добавить критерии"/><br>
 					</form>
@@ -48,13 +47,14 @@
 						if (isset ($_POST['measure']))
 						{
 							$countmeasure=$_POST['countmeasure'];
+							for ($x=0; $x<$countmeasure; $x++) 
+							{
+								echo "<input type='text' name='measure".$x."'><br>";
+							}
 						}
-						for ($x=0; $x<countmeasure; $x++) 
-						{
-							echo "<input type='text' name='measure".$x."'><br>";
-						}
+						
 					?>
-					<input type="submit" name="interview" value="Создать"/><br>
+					<input type="submit" name="create" value="Создать"/><br>
 				</form>
 			</td>
 		</tr>
