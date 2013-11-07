@@ -56,63 +56,62 @@
 							//Элемент массива marks - оценки конкретного эксперта в конкретном опросе.
 							$marks=array();
 							
-							$query=mysql_query("SELECT COUNT(*) FROM users");
-							while ($row = mysql_fetch_row($query))
-							{
-								$count=$row[0];
-							}
-							
-							$expertNames = array();
-							for ($i=3; $i<($count)+1; $i++)
-							{
-								$query=mysql_query("SELECT mark FROM experttointerview WHERE numberOpros=".$interviewId." and numberExpert=".$i."");
-								if ($query)
+							$queryExpertId=mysql_query("SELECT DISTINCT numberExpert FROM experttointerview WHERE numberOpros=".$interviewId);
+							if ($queryExpertId && mysql_num_rows($queryExpertId)>0)
+							{							
+								$expertNames = array();
+								while ($row = mysql_fetch_row($queryExpertId))
 								{
-									$expertQuery = mysql_query("SELECT fio FROM users WHERE userId = ".$i);
-									$expertName = mysql_fetch_row($expertQuery);
-									$expertNames[$i] = $expertName[0];
-									echo "<tr><td align='left' >".$expertName[0]."</td>";
-									$mark=array();
-									while ($row = mysql_fetch_row($query))
+									$expertId = $row[0];
+									$query=mysql_query("SELECT mark FROM experttointerview WHERE numberOpros=".$interviewId." and numberExpert=".$expertId."");
+									if ($query)
 									{
-										echo "<td align='center'>$row[0]</td>";
-										array_push($mark,$row[0]);
+										$expertQuery = mysql_query("SELECT fio FROM users WHERE userId = ".$expertId);
+										$expertName = mysql_fetch_row($expertQuery);
+										$expertNames[$expertId] = $expertName[0];
+										echo "<tr><td align='left' >".$expertName[0]."</td>";
+										$mark=array();
+										while ($row = mysql_fetch_row($query))
+										{
+											echo "<td align='center'>$row[0]</td>";
+											array_push($mark,$row[0]);
+										}
+										echo "</tr>";
+										$marks[$expertId] = $mark;
 									}
-									echo "</tr>";
-									$marks[$i] = $mark;
 								}
-							}
-							
-							//Конец таблицы оценок
-							echo "</table><br>";
-							
-							include ("logic.php");
-							//Получение набора матриц рангов
-							$listRankMatr = getRankMatrix($marks);
-							
-							//Таблица мер близости оценок экспертов
-							$proximityMatr = getProximityMatrix($listRankMatr);
-							
-							//Вывод таблицы близости мнений экспертов
-							echo "<h4 align='right'>Таблица близости оценок экспертов</h4>";
-							echo "<table border='2' cellspacing = '1'><tr><td align='center' >Эксперты</td>";
-							foreach($expertNames as $expertId => $expertName)
-							{
-								echo "<td align='center' >$expertName</td>";
-							}
-							echo "</tr>";
-							foreach($expertNames as $expertId => $expertName)
-							{
-								echo "<tr><td align='left' >$expertName</td>";
-								foreach($expertNames as $secondExpertId => $expertName)
+								
+								//Конец таблицы оценок
+								echo "</table><br>";
+								
+								include ("logic.php");
+								//Получение набора матриц рангов
+								$listRankMatr = getRankMatrix($marks);
+								
+								//Таблица мер близости оценок экспертов
+								$proximityMatr = getProximityMatrix($listRankMatr);
+								
+								//Вывод таблицы близости мнений экспертов
+								echo "<h4 align='right'>Таблица близости оценок экспертов</h4>";
+								echo "<table border='2' cellspacing = '1'><tr><td align='center' >Эксперты</td>";
+								foreach($expertNames as $expertId => $expertName)
 								{
-									echo "<td>".$proximityMatr[$expertId][$secondExpertId]."</td>";
+									echo "<td align='center' >$expertName</td>";
 								}
 								echo "</tr>";
-							}
+								foreach($expertNames as $expertId => $expertName)
+								{
+									echo "<tr><td align='left' >$expertName</td>";
+									foreach($expertNames as $secondExpertId => $expertName)
+									{
+										echo "<td>".$proximityMatr[$expertId][$secondExpertId]."</td>";
+									}
+									echo "</tr>";
+								}
+								
+								echo "</table>";
 							
-							echo "</table>";
-							
+							}	
 						}
 						else if ($query && mysql_num_rows($query) == 0)
 						{
