@@ -27,6 +27,8 @@
 			{
 			$login=$_POST['login'];
 			$password=md5($_POST['password']);
+			$_SESSION['login'] = $login;
+			$_SESSION['password'] = $password;
 			$query=mysql_query("SELECT login,password FROM users WHERE login='$login'");
 			$user_data=mysql_fetch_array($query);
 			
@@ -45,13 +47,11 @@
 						include("expert.php");
 						}
 			}
-			else
-			{
+				else
+				{
 				echo "Неверный пароль или логин";
+				}
 			}
-			}
-			$_SESSION['login'] = $login;
-			$_SESSION['password'] = $password;
 	?>
 </body>
 </html>

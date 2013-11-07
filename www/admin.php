@@ -16,6 +16,7 @@
 				<p>Эксперты</p>
 				<a href=addExpert.php>Добавить эксперта</a><br>
 				<a href=ListOfExpert.php>Посмотреть список экспертов</a><br>
+				<br><br><br><a href=index.php>На главную</a><br>
 			</td>
 		</tr>
 	</table>
