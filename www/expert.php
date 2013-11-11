@@ -61,7 +61,8 @@
 					{
 						foreach($_POST as $key => $value) 
 							{ 
-								$query=mysql_query("UPDATE experttointerview SET mark='".$value."' WHERE measure='".str_replace('_',' ',$key)."'")or die(mysql_error());
+								$query=mysql_query("UPDATE experttointerview SET mark='".$value."' WHERE measure='".str_replace('_',' ',$key)."' 
+								AND numberExpert = '$userId'")or die(mysql_error());
 							} 
 					
 						exit("<meta http-equiv='refresh' content='0; url= $_SERVER[PHP_SELF]'>");	

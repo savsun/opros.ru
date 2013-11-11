@@ -12,9 +12,11 @@
 			<td width="200"><p>Опросы</p><br>
 				<a href=createInterview.php>Создать опрос</a><br>
 				<a href=ListOfInterview.php>Посмотреть список опросов</a><br>
+				<a href=delInterview.php>Удалить опрос</a><br>
 				<p>Эксперты</p>
 				<a href=addExpert.php>Добавить эксперта</a><br>
-				<a href=ListOfExpert.php>Посмотреть список экспертов</a><br><br>
+				<a href=ListOfExpert.php>Посмотреть список экспертов</a><br>
+				<a href=DelExpert.php>Удалить эксперта</a><br><br>
 				<a href=admin.php>В меню администратора</a><br>
 			</td>
 			<td>	

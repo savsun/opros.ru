@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>ListOfInterview</title>
+  <title>DeleteInterview</title>
  </head>
  
 
@@ -22,17 +22,20 @@
 			</td>
 			<td>
 				<table border ="2">
+				<form method="post" action="delInterview.php">
 					<tr>
-						<td width="150">Название опроса</td>
+						<td width="100">Название опроса</td>
 						<td width="80">Дата начала</td>
 						<td width="80">Дата окончания</td>
 						<td width="150">Эксперты</td>
 						<td width="150">Критерии</td>
+						<td width="20">Удалить</td>
 					</tr>
 					<?php
 						$db=mysql_connect("localhost","root");
 						mysql_select_db ("interview");
 						$query=mysql_query("SELECT * FROM listofinterview");
+						$x=1;
 						while ($row = mysql_fetch_array($query))
 						{
 							echo "<tr><td>$row[nameInterview]</td><td>$row[dataBegining]</td><td>$row[dataEnding]</td><td>";
@@ -47,10 +50,30 @@
 							{
 								echo "$row2[measure]<br>";
 							}
-							echo "</td></tr>";
+							echo "</td><td><input type='radio' name='interview".$x."' value='$row[id]'</td></tr>";
+							$x+=1;
 						}
 					?>
-				</table>
+				</table><br><br>
+				<input type="submit" name="deleteInterview" value="Удалить"/><br>
+				</form>
+				<?php
+				//var_dump($_POST);
+					if (isset ($_POST['deleteInterview']))
+                        {	
+							$delInterview=array_reverse($_POST);
+							$delInterview=array_slice($delInterview,1);
+							$delInterview=array_values($delInterview);
+							//var_dump($delInterview);
+							for ($k=0; $k<count($delInterview); $k++) 
+								{
+									$delete=mysql_query("DELETE FROM listofinterview WHERE id='$delInterview[$k]'") or die(mysql_error());
+									$delete=mysql_query("DELETE FROM experttointerview WHERE numberOpros='$delInterview[$k]'") or die(mysql_error());
+								}
+							
+							exit("<meta http-equiv='refresh' content='0; url= $_SERVER[PHP_SELF]'>");
+						}
+				?>	
 			</td>
 		</tr>
 	</table>

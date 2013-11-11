@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>ListOfExpert</title>
+  <title>DelExpert</title>
  </head>
  
 <body bgcolor="ffc13d">
@@ -21,25 +21,45 @@
 			</td>
 			<td>
 				<table border ="2">
+					<form method="post" action="DelExpert.php">
 					<tr>
 						<td>ФИО эксперта</td>
 						<td>Специализация</td>
 						<td>Адрес электронной почты</td>
+						<td>Удалить</td>
 					</tr>
 					<?php
 						$db=mysql_connect("localhost","root");
 						mysql_select_db ("interview");
 						$query=mysql_query("SELECT * FROM users WHERE userId>2");
+						$x=3;
 						while ($row = mysql_fetch_array($query))
 						{
-							echo "<tr><td>$row[fio]</td><td>$row[specialization]</td><td>$row[mail]</td></tr>";
+							echo "<tr><td>$row[fio]</td><td>$row[specialization]</td><td>$row[mail]</td><td><input type='radio' name='expert".$x."' value='$row[userId]'</td></tr>";
+							$x+=1;
 						}
 					?>
-					</table>
+				</table><br><br>
+				<input type="submit" name="deleteExpert" value="Удалить"/><br>
+					</form>
+				<?php
+					if (isset ($_POST['deleteExpert']))
+                        {	
+							$delExpert=array_reverse($_POST);
+							$delExpert=array_slice($delExpert,1);
+							$delExpert=array_values($delExpert);
+							//var_dump($delExpert);
+							for ($k=0; $k<count($delExpert); $k++) 
+								{
+									$delete=mysql_query("DELETE FROM users WHERE userId='$delExpert[$k]'") or die(mysql_error());
+								}
+							
+							exit("<meta http-equiv='refresh' content='0; url= $_SERVER[PHP_SELF]'>");
+						}
+				?>
 			</td>
 		</tr>
 	</table>
 	
-</body> 
 </body>
 </html>
